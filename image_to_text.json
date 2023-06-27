@@ -1,0 +1,42 @@
+[
+  {
+    "image": "Cat_1.jpg",
+    "huggingface": "a cat with a pink nose looking at the camera"
+  },
+  {
+    "image": "Cat_2.jpg",
+    "huggingface": "a cat laying on a ledge"
+  },
+  {
+    "image": "Cat_3.jpg",
+    "huggingface": "a cat sitting down"
+  },
+  {
+    "image": "Cat_4.jpg",
+    "huggingface": "a cat sitting on a wall looking at the camera"
+  },
+  {
+    "image": "Cat_5.jpg",
+    "huggingface": "a small cat sitting on a white surface"
+  },
+  {
+    "image": "Dog_1.jpg",
+    "huggingface": "a puppy with a white background"
+  },
+  {
+    "image": "Dog_2.jpg",
+    "huggingface": "a dog laying on a yellow background"
+  },
+  {
+    "image": "Dog_3.jpg",
+    "huggingface": "a small dog standing on a dirt road"
+  },
+  {
+    "image": "Dog_4.jpg",
+    "huggingface": "a small dog with a collar on"
+  },
+  {
+    "image": "Dog_5.jpg",
+    "huggingface": "a small dog with a blue collar looking up"
+  }
+]
