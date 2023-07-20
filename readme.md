@@ -120,6 +120,7 @@ Dự án này sử dụng công nghệ xử lý ngôn ngữ tự nhiên và hìn
 - **download**: Thư mục chứa các ảnh tải xuống từ Google Images.
 - **\<folder-name\>**: Thư mục con chứa các ảnh dựa trên từ khóa tìm kiếm.
   - **generated**: Thư mục chứa các ảnh nền đã được tạo ra từ dall-e của openai.
+  - **bing_generated**: Thư mục chứa các ảnh nền được tạo ra từ bingai
   - **remove_text**: Thư mục chứa các ảnh đã xóa văn bản bằng Clipdrop.
 
 
