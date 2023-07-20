@@ -1,5 +1,8 @@
-const { exec } = require('child_process');
-const ggSearch = require('./ggsearch');
+// const { exec } = require('child_process');
+// const ggSearch = require('./ggsearch');
+import exec from 'child_process';
+import ggSearch from 'ggsearch';
+
 // Hàm chạy file JavaScript
 function runScript(scriptName) {
   return new Promise((resolve, reject) => {
@@ -23,7 +26,7 @@ function runScript(scriptName) {
 // Chạy các file JavaScript lần lượt
 async function runAllScripts() {
   try {
-    await ggSearch("Gà rán")
+    await ggSearch("Spider man")
     await runScript('image_to_text.js');
     await runScript('generate_img.js');
     await runScript('generate_img_bing.js');
@@ -32,5 +35,4 @@ async function runAllScripts() {
     console.error('Đã xảy ra lỗi khi chạy các file JavaScript:', error);
   }
 }
-
 runAllScripts();

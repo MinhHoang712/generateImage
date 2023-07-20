@@ -2,8 +2,9 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const { Configuration, OpenAIApi } = require("openai");
+import "dotenv/config";
 
-const OPENAI_API_KEY = "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";
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 const configuration = new Configuration({
   apiKey: OPENAI_API_KEY,

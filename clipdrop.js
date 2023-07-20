@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const FormData = require('form-data');
+import "dotenv/config";
 
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
@@ -8,9 +9,9 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const downloadPath = path.join(__dirname, 'download');
 
 // Thay thế bằng thông tin xác thực Clipdrop API của bạn https://clipdrop.co/apis/account
-const API_KEY = 'a55a2f1b67582ccc992f2c48a5eb87d4b3a04f65d62685836631efb70eab068a0cee9a13378d227e55351c80f9808d3a';
+const CLIPDROP_API_KEY = process.env.CLIPDROP_API_KEY;
 
-if (!API_KEY) {
+if (!CLIPDROP_API_KEY) {
   console.log("Hãy cung cấp api_key");
 }
 
@@ -80,7 +81,7 @@ fs.readdir(downloadPath, (err, folders) => {
         });
       });
     } else {
-      // console.log(`Không thực hiện xóa văn bản trong thư mục ${folder}.`);
+      console.log(`Không thực hiện xóa văn bản trong thư mục ${folder}.`);
     }
   });
 });

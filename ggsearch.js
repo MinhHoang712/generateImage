@@ -1,9 +1,10 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+import 'dotenv';
 
-const API_KEY = "AIzaSyC7_-o69yMnbSGInAqUuB4vZ2WgwXd4fB4";
-const CX = "90312e7c2d19d4d93";
+const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+const GOOGLE_CX_ID = process.env.GOOGLE_CX_ID;
 
 const downloadFolder = 'download';
 
@@ -37,8 +38,8 @@ const downloadImage = async (imageUrl, imagePath) => {
 
 const searchImages = async (keyword) => {
   const params = {
-    key: API_KEY,
-    cx: CX,
+    key: GOOGLE_API_KEY,
+    cx: GOOGLE_CX_ID,
     q: keyword,
     searchType: "image",
   };
@@ -102,4 +103,3 @@ const searchAndDownloadImages = async (keyword) => {
 };
 
 module.exports = searchAndDownloadImages;
-// searchAndDownloadImages('Pizza 4p')

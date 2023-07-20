@@ -1,8 +1,10 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const API_TOKEN = "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";
-const headers = { "Authorization": `Bearer ${API_TOKEN}` };
+import 'dotenv';
+
+const HUGGINGFACE_API_KEY = process.env.HUGGINGFACE_API_KEY;
+const headers = { "Authorization": `Bearer ${HUGGINGFACE_API_KEY}` };
 const API_URL = "https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-base";
 
 // Gửi POST request đến API của Hugging Face để tạo câu miêu tả ảnh
