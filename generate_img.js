@@ -3,18 +3,15 @@ const fs = require('fs');
 const path = require('path');
 const { Configuration, OpenAIApi } = require("openai");
 
-const OPENAI_API_KEY = "";
+const OPENAI_API_KEY = "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";
 
 const configuration = new Configuration({
-    apiKey: OPENAI_API_KEY,
+  apiKey: OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-const imageToTextPath = path.join(__dirname, 'image_to_text.json');
-const imageToTextData = fs.readFileSync(imageToTextPath, 'utf-8');
-const imageToText = JSON.parse(imageToTextData);
 const downloadPath = "download";
 
-async function generateImage(prompt, imageName, folder) {
+async function generateImage(prompt, imageName, folder, imageIndex) {
   try {
     const response = await openai.createImage({
       prompt: prompt,
@@ -22,17 +19,15 @@ async function generateImage(prompt, imageName, folder) {
       size: "256x256",
     });
     const imageUrl = response.data.data[0].url;
-    // console.log("Generated image URL:", imageUrl);
 
     const generatedPath = path.join(downloadPath, folder, "generated");
 
-    // Kiểm tra và tạo thư mục generated cho từng thư mục con nếu chưa tồn tại
-
+    // Kiểm tra và tạo thư mục generated trong thư mục con nếu chưa tồn tại
     if (!fs.existsSync(generatedPath)) {
       fs.mkdirSync(generatedPath);
     }
 
-    const generatedImageName = imageName.replace('.jpg', '_generated.jpg');
+    const generatedImageName = `${folder}_${imageIndex}_generated.jpg`;
     const imagePath = path.join(generatedPath, generatedImageName);
 
     const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
@@ -45,10 +40,29 @@ async function generateImage(prompt, imageName, folder) {
   }
 }
 
-imageToText.forEach(({ image, huggingface }) => {
-  const prompt = huggingface;
-  const imageName = image;
-  const folderName = imageName.split('_')[0]; // Lấy tên thư mục con từ tên ảnh
+// Lấy danh sách các thư mục con trong thư mục download
+const subFolders = fs.readdirSync(downloadPath);
 
-  generateImage(prompt, imageName, folderName);
-});
+// Lặp qua từng thư mục con
+for (const subFolder of subFolders) {
+  const imageToTextPath = path.join(downloadPath, subFolder, "image_to_text.json");
+
+  // Kiểm tra xem file image_to_text.json đã tồn tại trong thư mục con hay chưa
+  if (fs.existsSync(imageToTextPath)) {
+    const imageToTextData = fs.readFileSync(imageToTextPath, 'utf-8');
+    const imageToText = JSON.parse(imageToTextData);
+    const generatedPath = path.join(downloadPath, subFolder, "generated");
+    if (!fs.existsSync(generatedPath)) {
+    // Lặp qua từng cặp ảnh và mô tả trong file image_to_text.json
+    imageToText.forEach(({ image, huggingface }, index) => {
+      const prompt = huggingface;
+      const imageName = image;
+
+      generateImage(prompt, imageName, subFolder, index + 1);
+    });
+  }
+    else {
+      console.log(`Thư mục generated đã tồn tại trong thư mục ${subFolder}, bỏ qua tạo ảnh mới.`);
+    }
+  }
+}

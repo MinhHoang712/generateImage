@@ -1,0 +1,27 @@
+[
+  {
+    "image": "Pizza Hut_1.jpg",
+    "huggingface": "a man holding a pizza box with a slice of pizza",
+    "folder": "Pizza Hut_20_7_2023_11_42_52"
+  },
+  {
+    "image": "Pizza Hut_2.JPG",
+    "huggingface": "a red roof on a restaurant",
+    "folder": "Pizza Hut_20_7_2023_11_42_52"
+  },
+  {
+    "image": "Pizza Hut_3.jpg",
+    "huggingface": "a pizza box with four different types of pizza",
+    "folder": "Pizza Hut_20_7_2023_11_42_52"
+  },
+  {
+    "image": "Pizza Hut_4.jpg",
+    "huggingface": "pizza hut",
+    "folder": "Pizza Hut_20_7_2023_11_42_52"
+  },
+  {
+    "image": "Pizza Hut_5.jpg",
+    "huggingface": "a pizza with cheese and toppings",
+    "folder": "Pizza Hut_20_7_2023_11_42_52"
+  }
+]

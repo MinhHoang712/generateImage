@@ -20,23 +20,63 @@
     "huggingface": "a small cat sitting on a white surface"
   },
   {
+    "image": "Chocolate_1.jpg",
+    "huggingface": "a plate of chocolate on a table"
+  },
+  {
+    "image": "Chocolate_2.jpg",
+    "huggingface": "a bar of chocolate on a marble surface"
+  },
+  {
+    "image": "Chocolate_3.jpg",
+    "huggingface": "chocolates and cocoa"
+  },
+  {
+    "image": "Chocolate_4.jpg",
+    "huggingface": "milk chocolate bar - milk milk chocolate bar - milk milk milk milk bar - milk milk bar -"
+  },
+  {
+    "image": "Chocolate_5.jpg",
+    "huggingface": "a pile of chocolates with different colors"
+  },
+  {
     "image": "Dog_1.jpg",
     "huggingface": "a puppy with a white background"
   },
   {
     "image": "Dog_2.jpg",
-    "huggingface": "a dog laying on a yellow background"
-  },
-  {
-    "image": "Dog_3.jpg",
     "huggingface": "a small dog standing on a dirt road"
   },
   {
+    "image": "Dog_3.jpg",
+    "huggingface": "a dog laying on a yellow background"
+  },
+  {
     "image": "Dog_4.jpg",
-    "huggingface": "a small dog with a collar on"
+    "huggingface": "a dog standing in the grass"
   },
   {
     "image": "Dog_5.jpg",
-    "huggingface": "a small dog with a blue collar looking up"
+    "huggingface": "a small dog with a collar on"
+  },
+  {
+    "image": "pizza Hut_1.jpg",
+    "huggingface": "pizza hut is offering a new range of pizzas"
+  },
+  {
+    "image": "pizza Hut_2.jpg",
+    "huggingface": "a person holding a slice of pizza with pepperoni and cheese"
+  },
+  {
+    "image": "pizza Hut_3.png",
+    "huggingface": "a pizza box with a slice of pizza on it"
+  },
+  {
+    "image": "pizza Hut_4.jpg",
+    "huggingface": "a pizza box with a slice of pizza being taken out of it"
+  },
+  {
+    "image": "pizza Hut_5.jpg",
+    "huggingface": "pizza hut logo"
   }
 ]

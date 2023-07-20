@@ -8,18 +8,10 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const downloadPath = path.join(__dirname, 'download');
 
 // Thay thế bằng thông tin xác thực Clipdrop API của bạn https://clipdrop.co/apis/account
-const API_KEY = '';
+const API_KEY = 'a55a2f1b67582ccc992f2c48a5eb87d4b3a04f65d62685836631efb70eab068a0cee9a13378d227e55351c80f9808d3a';
 
-if (!API_KEY)
-{
-    console.log("Hãy cung cấp api_key")
-}
-
-// Hàm kiểm tra và tạo thư mục nếu chưa tồn tại
-function ensureDirectoryExists(directory) {
-  if (!fs.existsSync(directory)) {
-    fs.mkdirSync(directory, { recursive: true });
-  }
+if (!API_KEY) {
+  console.log("Hãy cung cấp api_key");
 }
 
 // Hàm gửi yêu cầu API Clipdrop để xóa văn bản từ ảnh
@@ -61,23 +53,34 @@ fs.readdir(downloadPath, (err, folders) => {
   folders.forEach(folder => {
     const generatedPath = path.join(downloadPath, folder, 'generated');
     const removeTextPath = path.join(downloadPath, folder, 'remove_text');
+    const imageToTextPath = path.join(downloadPath, folder, 'image_to_text.json');
 
-    // Đảm bảo thư mục "generated" và "remove_text" tồn tại
-    ensureDirectoryExists(generatedPath);
-    ensureDirectoryExists(removeTextPath);
+    // Kiểm tra xem file image_to_text.json đã tồn tại trong thư mục con hay không
+    const imageToTextExists = fs.existsSync(imageToTextPath);
 
-    // Đọc danh sách tệp ảnh từ thư mục "generated" và áp dụng xóa văn bản
-    fs.readdir(generatedPath, (err, files) => {
-      if (err) {
-        console.log(`Lỗi khi đọc thư mục "generated" trong ${folder}:`, err);
-        return;
-      }
+    // Kiểm tra xem thư mục "generated" và "remove_text" đã tồn tại trong thư mục con hay chưa
+    const generatedDirectoryExists = fs.existsSync(generatedPath);
+    const removeTextDirectoryExists = fs.existsSync(removeTextPath);
 
-      // Lặp qua từng tệp ảnh và áp dụng xóa văn bản
-      files.forEach(file => {
-        const imagePath = path.join(generatedPath, file);
-        removeTextFromImage(imagePath, removeTextPath);
+    // Nếu đã tồn tại cả hai "image_to_text.json" và "generated" và chưa có "remove_text"
+    if (imageToTextExists && generatedDirectoryExists && !removeTextDirectoryExists) {
+      fs.mkdirSync(removeTextPath); // Tạo thư mục "remove_text" nếu chưa tồn tại
+
+      // Đọc danh sách tệp ảnh từ thư mục "generated" và áp dụng xóa văn bản
+      fs.readdir(generatedPath, (err, files) => {
+        if (err) {
+          console.log(`Lỗi khi đọc thư mục "generated" trong ${folder}:`, err);
+          return;
+        }
+
+        // Lặp qua từng tệp ảnh và áp dụng xóa văn bản
+        files.forEach(file => {
+          const imagePath = path.join(generatedPath, file);
+          removeTextFromImage(imagePath, removeTextPath);
+        });
       });
-    });
+    } else {
+      // console.log(`Không thực hiện xóa văn bản trong thư mục ${folder}.`);
+    }
   });
 });

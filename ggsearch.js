@@ -1,25 +1,16 @@
-const SerpApi = require('google-search-results-nodejs');
+const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const axios = require('axios');
-//api của serpapi. đăng nhập và lấy từ https://serpapi.com/
-const search = new SerpApi.GoogleSearch("");
 
-const params = {
-  q: "Dog", // Từ khóa tìm kiếm
-  engine: "google_images", // Bộ máy tìm kiếm (google_images để tìm ảnh trên Google)
-  ijn: "0",//tìm kiếm ở trang đầu tiên
-  tbm: "isch"
-};
+const API_KEY = "AIzaSyC7_-o69yMnbSGInAqUuB4vZ2WgwXd4fB4";
+const CX = "90312e7c2d19d4d93";
 
 const downloadFolder = 'download';
 
-// Kiểm tra và tạo thư mục download nếu chưa tồn tại
 if (!fs.existsSync(downloadFolder)) {
   fs.mkdirSync(downloadFolder);
 }
 
-// Hàm tải xuống ảnh từ URL và lưu vào đường dẫn cụ thể
 const downloadImage = async (imageUrl, imagePath) => {
   try {
     const response = await axios({
@@ -44,34 +35,65 @@ const downloadImage = async (imageUrl, imagePath) => {
   }
 };
 
-// Hàm callback được gọi khi nhận được kết quả từ API tìm kiếm
-const callback = async function(data) {
-  const images = data["images_results"];
-  var images_num = 0; // Số lượng ảnh đã tải xuống
+const searchImages = async (keyword) => {
+  const params = {
+    key: API_KEY,
+    cx: CX,
+    q: keyword,
+    searchType: "image",
+  };
+
+  const response = await axios.get("https://www.googleapis.com/customsearch/v1", {
+    params: params
+  });
+
+  return response.data.items;
+};
+
+const createFolder = (keyword) => {
+  const now = new Date();
+  const formattedDate = `${now.getDate()}_${now.getMonth() + 1}_${now.getFullYear()}_${now.getHours()}_${now.getMinutes()}_${now.getSeconds()}`;
+  return `${keyword}_${formattedDate}`;
+};
+
+const isValidImageExtension = (extension) => {
+  const validExtensions = ['.jpg', '.jpeg', '.png'];
+  return validExtensions.includes(extension.toLowerCase());
+};
+
+const searchAndDownloadImages = async (keyword) => {
   try {
-    for (let i = 0; i < images.length; i++) {
-      const image = images[i];
-      const imageUrl = image.original;
+    const imageResults = await searchImages(keyword);
+
+    const downloadPath = path.join(downloadFolder, createFolder(keyword));
+
+    if (!fs.existsSync(downloadPath)) {
+      fs.mkdirSync(downloadPath);
+    }
+
+    const imagesToDownload = Math.min(imageResults.length, 5);
+
+    for (let i = 0; i < imagesToDownload; i++) {
+      const image = imageResults[i];
+      const imageUrl = image.link;
       const imageExtension = path.extname(imageUrl).split('?')[0];
-      const downloadPath = path.join(downloadFolder, params.q)
-      
-      // Kiểm tra và tạo thư mục download cho từng từ khóa nếu chưa tồn tại
-      if (!fs.existsSync(downloadPath)) {
-        fs.mkdirSync(downloadPath);
-      }
-      
-      // Kiểm tra định dạng ảnh và chỉ tải xuống ảnh có định dạng jpg, jpeg, png
-      if ([".jpg", ".jpeg", ".png"].includes(imageExtension.toLowerCase())) {
-        const imageName = `${params.q}_${images_num + 1}${imageExtension}`;
+
+      if (isValidImageExtension(imageExtension)) {
+        const imageName = `${keyword}_${i + 1}${imageExtension}`;
         const imagePath = path.join(downloadPath, imageName);
-    
-        if (images_num < 5) { // Chỉ tải xuống 5 ảnh
-          images_num += 1;
+        
+        try {
           await downloadImage(imageUrl, imagePath);
           console.log('Đã tải xuống ảnh:', imageName);
-        } else {
-          break;
+        } catch (error) {
+          console.log('Lỗi khi tải xuống ảnh:', imageUrl);
+          // Xóa ảnh không tải xuống thành công
+          fs.unlinkSync(imagePath);
+          continue
         }
+      } else {
+        console.log('Ảnh không hợp lệ:', imageUrl);
+        // fs.unlinkSync(imagePath);
       }
     }
   } catch (error) {
@@ -79,5 +101,5 @@ const callback = async function(data) {
   }
 };
 
-// Gửi yêu cầu tìm kiếm và gọi hàm callback khi có kết quả trả về
-search.json(params, callback);
+module.exports = searchAndDownloadImages;
+// searchAndDownloadImages('Pizza 4p')
