@@ -19,37 +19,63 @@ Dự án này sử dụng công nghệ xử lý ngôn ngữ tự nhiên và hìn
 3. Cài đặt các gói phụ thuộc:
 
    ```
-   npm install
+   npm install 
    ```
 
-4. Cấu hình API key và CX:
+4. Cấu hình các API key :
 
-   - Trong file `ggsearch.js`, thay thế giá trị `API_KEY` và `CX` bằng API key và Custom Search Engine ID của bạn. Bạn có thể nhận API key và CX từ trang [Google Custom Search JSON API](https://developers.google.com/custom-search/docs/tutorial/introduction).
+   - Nhận CX_ID bằng 1 project theo hướng dẫn từ trang [Google Custom Search API](https://developers.google.com/custom-search/v1/overview).
+   (Tạo project Google nếu chưa có)
 
-   ```
-   const API_KEY = "YOUR_API_KEY";
-   const CX = "YOUR_CX";
-   ```
-
-   - Trong file `generate_img.js`, thay thế giá trị `OPENAI_API_KEY` bằng API key của bạn từ OpenAI. Bạn có thể nhận API key từ trang [OpenAI API Documentation](https://docs.openai.com/).
-
-   ```
-   const OPENAI_API_KEY = "YOUR_OPENAI_API_KEY";
-   ```
-
-   - Trong file `clipdrop.js`, thay thế giá trị `CLIPDROP_API_KEY` bằng API key của bạn từ Clipdrop. Bạn có thể nhận API key từ trang [Clipdrop API Documentation](https://clipdrop.co/apis/account).
+      ![CX ID](.github/cx_id.png)
+   
+   - Nhận API_KEY tạo ra từ CX_ID đó. 
+   - Trong file `.env`, thay thế giá trị `GOOGLE_API_KEY` và `GOOGLE_CX_ID` bằng API key và Custom Search Engine ID của bạn. 
 
    ```
-   const CLIPDROP_API_KEY = "YOUR_CLIPDROP_API_KEY";
+   GOOGLE_API_KEY = AInjns1d_-********************
+   GOOGLE_CX_ID = 5654**********
    ```
 
+   - Cũng trong file `.env` trên, thay thế giá trị `OPENAI_API_KEY` bằng API key của bạn từ OpenAI. Nhận API key từ trang [OpenAI API Account](https://platform.openai.com/account/api-keys).
+
+   ```
+   OPENAI_API_KEY = "sk-**************************";
+   ```
+
+   - Thay thế giá trị `CLIPDROP_API_KEY` bằng API key của bạn từ Clipdrop. 
+   Nhận API key từ trang [Clipdrop API Documentation](https://clipdrop.co/apis/account).
+
+   ```
+   CLIPDROP_API_KEY = "afsjq***************************************************************";
+   ```
+
+   - Lấy cookie Bing Image: Trên Chrome, Edge, Opera
+         - Mở trang https://bing.com/.
+         - __F12__ hoặc __Ctrl__ + __Shift__ + __I__ để mở devtool
+         - Tìm tới tab Console, dán lệnh `cookieStore.get("_U").then(result => console.log(result.value))` và __Enter__   
+         - Copy kết quả 
+            ![Ảnh lấy cookie](.github/cookie.png)
+         
+         - Dán Cookies vừa tìm được vào file `.env` tại vị trí chỉ định
+
+         ```
+         BING_IMAGE_COOKIE = 1tr_******* ... ****
+         ```
+
+   - Lấy API-KEY của Huggingface tại [đây](https://huggingface.co/settings/tokens)
+
+   ```
+   HUGGINGFACE_API_KEY = hf_************************
+   ```
+   
 ## Sử dụng
 
 1. Tìm ảnh liên quan từ Google Images:
    - Chạy lệnh sau để tìm ảnh liên quan từ Google Images:
 
      ```
-     node run_scripts
+     node run_scripts.js
      ```
 
    - Ảnh được tìm thấy sẽ được lưu trong các thư mục con của thư mục `download`, tên các thư mục con là nội dung tìm kiếm (giá trị 'q' trong params).
@@ -98,9 +124,7 @@ Dự án này sử dụng công nghệ xử lý ngôn ngữ tự nhiên và hìn
 
 ## Tài liệu tham khảo
 
-- [OpenAI API Documentation](https://docs.openai.com/)
+- [OpenAI API Documentation](https://platform.openai.com/)
 - [Clipdrop API Documentation](https://clipdrop.co/developers/)
 - [Huggingface](https://huggingface.co/Salesforce/blip-image-captioning-large)
-- [
-
-DALL-E](https://openai.com/research/publications/dall-e)
+- [DALL-E](https://openai.com/research/publications/dall-e)
