@@ -1,7 +1,7 @@
 // const { exec } = require('child_process');
-// const ggSearch = require('./ggsearch');
+const ggSearch = require('./ggsearch.js');
 import exec from 'child_process';
-import ggSearch from 'ggsearch';
+// import ggSearch from '../generateImage/ggsearch';
 
 // Hàm chạy file JavaScript
 function runScript(scriptName) {
